@@ -963,7 +963,7 @@ const App = () => {
               onClick={() => scrollToSection("home")}
             >
               <img
-                src="/products/logo.png"
+                src="/logo.png"
                 alt="Shivam Editing Zone Logo"
                 className="w-12 h-12 object-contain"
               />
@@ -1869,7 +1869,7 @@ const App = () => {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <img
-                  src="/public/logo.png"
+                  src="/logo.png"
                   alt="Shivam Editing Zone Logo"
                   className="w-10 h-10 object-contain"
                 />
