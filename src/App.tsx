@@ -1,0 +1,2003 @@
+import React, { useState } from "react";
+import {
+  Menu,
+  X,
+  Users,
+  Eye,
+  Video,
+  Calendar,
+  Facebook,
+  Instagram,
+  Mail,
+  Youtube,
+  Phone,
+  ArrowRight,
+  Sparkles,
+  Award,
+  Heart,
+  MapPin,
+  IndianRupee,
+  Star,
+  Search,
+  ShoppingBag,
+} from "lucide-react";
+
+interface Product {
+  id: string;
+  name: string;
+  nameMarathi?: string;
+  price: number;
+  category: string;
+  thumbnail: string;
+}
+interface Category {
+  id: string;
+  name: string;
+  nameMarathi?: string;
+  description: string;
+  count: number;
+  icon: string; // Add this line
+}
+
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  // Complete Product Catalog from WhatsApp Business
+  const allProducts: Product[] = [
+    // Wedding Cards (लग्न पत्रिका) - Using actual product images
+    {
+      id: "w1",
+      name: "Wedding Card 01",
+      nameMarathi: "लग्न पत्रिका 01 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-01.jpeg",
+    },
+    {
+      id: "w2",
+      name: "Wedding Card 02",
+      nameMarathi: "लग्न पत्रिका 02 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-02.jpeg",
+    },
+    {
+      id: "w3",
+      name: "Wedding Card 03",
+      nameMarathi: "लग्न पत्रिका 03 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-03.jpeg",
+    },
+    {
+      id: "w4",
+      name: "Wedding Card 04",
+      nameMarathi: "लग्न पत्रिका 04 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-04.jpeg",
+    },
+    {
+      id: "w5",
+      name: "Wedding Card 05",
+      nameMarathi: "लग्न पत्रिका 05 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-05.jpeg",
+    },
+    {
+      id: "w6",
+      name: "Wedding Card 06",
+      nameMarathi: "लग्न पत्रिका 06 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-06.jpeg",
+    },
+    {
+      id: "w7",
+      name: "Wedding Card 07",
+      nameMarathi: "लग्न पत्रिका 07 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-07.jpeg",
+    },
+    {
+      id: "w8",
+      name: "Wedding Card 08",
+      nameMarathi: "लग्न पत्रिका 08 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-08.jpeg",
+    },
+    {
+      id: "w9",
+      name: "Wedding Card 09",
+      nameMarathi: "लग्न पत्रिका 09 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-09.jpeg",
+    },
+    {
+      id: "w10",
+      name: "Wedding Card 10",
+      nameMarathi: "लग्न पत्रिका 10 (with photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card with photo/wedding-10.jpeg",
+    },
+
+    {
+      id: "w11",
+      name: "Wedding Card 11",
+      nameMarathi: "लग्न पत्रिका 11 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-01.jpeg",
+    },
+    {
+      id: "w12",
+      name: "Wedding Card 12",
+      nameMarathi: "लग्न पत्रिका 12 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-02.jpeg",
+    },
+    {
+      id: "w13",
+      name: "Wedding Card 13",
+      nameMarathi: "लग्न पत्रिका 13 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-03.jpeg",
+    },
+    {
+      id: "w14",
+      name: "Wedding Card 14",
+      nameMarathi: "लग्न पत्रिका 14 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-04.jpeg",
+    },
+    {
+      id: "w15",
+      name: "Wedding Card 15",
+      nameMarathi: "लग्न पत्रिका 15 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-05.jpeg",
+    },
+    {
+      id: "w16",
+      name: "Wedding Card 16",
+      nameMarathi: "लग्न पत्रिका 16 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-06.jpeg",
+    },
+    {
+      id: "w17",
+      name: "Wedding Card 17",
+      nameMarathi: "लग्न पत्रिका 17 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-07.jpeg",
+    },
+    {
+      id: "w18",
+      name: "Wedding Card 18",
+      nameMarathi: "लग्न पत्रिका 18 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-08.jpeg",
+    },
+    {
+      id: "w19",
+      name: "Wedding Card 19",
+      nameMarathi: "लग्न पत्रिका 19 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-09.jpeg",
+    },
+    {
+      id: "w20",
+      name: "Wedding Card 20",
+      nameMarathi: "लग्न पत्रिका 20 (without photo)",
+      price: 200,
+      category: "wedding",
+      thumbnail: "/products/wedding/wedding card without photo/wedding-10.jpeg",
+    },
+
+    // प्रथम पुण्यस्मरण
+    {
+      id: "pp1",
+      name: "First Memorial Card 01",
+      nameMarathi: "प्रथम पुण्यस्मरण 01",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-01.jpeg",
+    },
+    {
+      id: "pp2",
+      name: "First Memorial Card 02",
+      nameMarathi: "प्रथम पुण्यस्मरण 02",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-02.jpeg",
+    },
+    {
+      id: "pp3",
+      name: "First Memorial Card 03",
+      nameMarathi: "प्रथम पुण्यस्मरण 03",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-03.jpeg",
+    },
+    {
+      id: "pp4",
+      name: "First Memorial Card 04",
+      nameMarathi: "प्रथम पुण्यस्मरण 04",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-04.jpeg",
+    },
+    {
+      id: "pp5",
+      name: "First Memorial Card 05",
+      nameMarathi: "प्रथम पुण्यस्मरण 05",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-05.jpeg",
+    },
+    {
+      id: "pp6",
+      name: "First Memorial Card 06",
+      nameMarathi: "प्रथम पुण्यस्मरण 06",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-06.jpeg",
+    },
+    {
+      id: "pp7",
+      name: "First Memorial Card 07",
+      nameMarathi: "प्रथम पुण्यस्मरण 07",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-07.jpeg",
+    },
+    {
+      id: "pp8",
+      name: "First Memorial Card 08",
+      nameMarathi: "प्रथम पुण्यस्मरण 08",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-08.jpeg",
+    },
+    {
+      id: "pp9",
+      name: "First Memorial Card 09",
+      nameMarathi: "प्रथम पुण्यस्मरण 09",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-09.jpeg",
+    },
+    {
+      id: "pp10",
+      name: "First Memorial card 10",
+      nameMarathi: "प्रथम पुण्यस्मरण 10",
+      price: 200,
+      category: "प्रथम पुण्यस्मरण",
+      thumbnail: "/products/First Memorial/First Memorial-10.jpeg",
+    },
+
+    // Birthday
+    {
+      id: "b1",
+      name: "Birthday Banner 01",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-01.jpeg",
+    },
+    {
+      id: "b2",
+      name: "Birthday Banner 02",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-02.jpeg",
+    },
+    {
+      id: "b3",
+      name: "Birthday Banner 03",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-03.jpeg",
+    },
+    {
+      id: "b4",
+      name: "Birthday Banner 04",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-04.jpeg",
+    },
+    {
+      id: "b5",
+      name: "Birthday Banner 05",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-05.jpeg",
+    },
+    {
+      id: "b6",
+      name: "Birthday Banner 06",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-06.jpeg",
+    },
+    {
+      id: "b7",
+      name: "Birthday Banner 07",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-07.jpeg",
+    },
+    {
+      id: "b8",
+      name: "Birthday Banner 08",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-08.jpeg",
+    },
+    {
+      id: "b9",
+      name: "Birthday Banner 09",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-09.jpeg",
+    },
+    {
+      id: "b10",
+      name: "Birthday Banner 10",
+      price: 150,
+      category: "birthday",
+      thumbnail: "/products/birthday/birthday-10.jpeg",
+    },
+
+    // Engagement
+    {
+      id: "e1",
+      name: "Engagement Card 01",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-01.jpeg",
+    },
+    {
+      id: "e2",
+      name: "Engagement Card 02",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-02.jpeg",
+    },
+    {
+      id: "e3",
+      name: "Engagement Card 03",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-03.jpeg",
+    },
+    {
+      id: "e4",
+      name: "Engagement card 04",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-04.jpeg",
+    },
+    {
+      id: "e5",
+      name: "Engagement card 05",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-05.jpeg",
+    },
+    {
+      id: "e6",
+      name: "Engagement card 06",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-06.jpeg",
+    },
+    {
+      id: "e7",
+      name: "Engagement card 07",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-07.jpeg",
+    },
+    {
+      id: "e8",
+      name: "Engagement card 08",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-08.jpeg",
+    },
+    {
+      id: "e9",
+      name: "Engagement card 09",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-09.jpeg",
+    },
+    {
+      id: "e10",
+      name: "Engagement card 10",
+      price: 150,
+      category: "engagement",
+      thumbnail: "/products/engagement/engagement-10.jpeg",
+    },
+
+    // House warning
+    {
+      id: "h1",
+      name: "House warning 01",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-01.jpeg",
+    },
+    {
+      id: "h2",
+      name: "House warning 02",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-02.jpeg",
+    },
+    {
+      id: "h3",
+      name: "House warning 03",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-03.jpeg",
+    },
+    {
+      id: "h4",
+      name: "House warning 04",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-04.jpeg",
+    },
+    {
+      id: "h5",
+      name: "House warning 05",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-05.jpeg",
+    },
+    {
+      id: "h6",
+      name: "House warning 06",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-06.jpeg",
+    },
+    {
+      id: "h7",
+      name: "House warning 07",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-07.jpeg",
+    },
+    {
+      id: "h8",
+      name: "House warning 08",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-08.jpeg",
+    },
+    {
+      id: "h9",
+      name: "House warning 09",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-09.jpeg",
+    },
+    {
+      id: "h10",
+      name: "House warning 10",
+      price: 150,
+      category: "House warning",
+      thumbnail: "/products/House warning/House warning-10.jpeg",
+    },
+
+    // Baby shower
+    {
+      id: "bs1",
+      name: "Baby shower 01",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-01.jpeg",
+    },
+    {
+      id: "bs2",
+      name: "Baby shower 02",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-02.jpeg",
+    },
+    {
+      id: "bs3",
+      name: "Baby shower 03",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-03.jpeg",
+    },
+    {
+      id: "bs4",
+      name: "Baby shower 04",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-04.jpeg",
+    },
+    {
+      id: "bs5",
+      name: "Baby shower 05",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-05.jpeg",
+    },
+    {
+      id: "bs6",
+      name: "Baby shower 06",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-06.jpeg",
+    },
+    {
+      id: "bs7",
+      name: "Baby shower 07",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-07.jpeg",
+    },
+    {
+      id: "bs8",
+      name: "Baby shower 08",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-08.jpeg",
+    },
+    {
+      id: "bs9",
+      name: "Baby shower 09",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-09.jpeg",
+    },
+    {
+      id: "bs10",
+      name: "Baby shower 10",
+      price: 150,
+      category: "Baby shower",
+      thumbnail: "/products/Baby shower/Baby shower-10.jpeg",
+    },
+
+    // Naming Ceremony
+    {
+      id: "nc1",
+      name: "Naming Ceremony 01",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-01.jpeg",
+    },
+    {
+      id: "nc2",
+      name: "Naming Ceremony 02",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-02.jpeg",
+    },
+    {
+      id: "nc3",
+      name: "Naming Ceremony 03",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-03.jpeg",
+    },
+    {
+      id: "nc4",
+      name: "Naming Ceremony 04",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-04.jpeg",
+    },
+    {
+      id: "nc5",
+      name: "Naming Ceremony 05",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-05.jpeg",
+    },
+    {
+      id: "nc6",
+      name: "Naming Ceremony 06",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-06.jpeg",
+    },
+    {
+      id: "nc7",
+      name: "Naming Ceremony 07",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-07.jpeg",
+    },
+    {
+      id: "nc8",
+      name: "Naming Ceremony 08",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-08.jpeg",
+    },
+    {
+      id: "nc9",
+      name: "Naming Ceremony 09",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-09.jpeg",
+    },
+    {
+      id: "nc10",
+      name: "Naming Ceremony 10",
+      price: 150,
+      category: "Naming Ceremony",
+      thumbnail: "/products/Naming Ceremony/Naming Ceremony-10.jpeg",
+    },
+
+    // // Festival
+    // { id: 'f1', name: 'Diwali Banner', price: 300, category: 'festival', thumbnail: 'https://images.unsplash.com/photo-1605979399824-5d5fb9e4df1c?w=400&h=500&fit=crop' },
+    // { id: 'f2', name: 'Ganesh Chaturthi Banner', price: 300, category: 'festival', thumbnail: 'https://images.unsplash.com/photo-1599827552599-eadf5fb3c75f?w=400&h=500&fit=crop' },
+    // { id: 'f3', name: 'Holi Banner', price: 250, category: 'festival', thumbnail: 'https://images.unsplash.com/photo-1583241800698-c318672ac363?w=400&h=500&fit=crop' },
+    // { id: 'f4', name: 'Navratri Banner', price: 300, category: 'festival', thumbnail: 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=400&h=500&fit=crop' },
+    // { id: 'f5', name: 'Festival Poster 01', price: 250, category: 'festival', thumbnail: 'https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=400&h=500&fit=crop' },
+
+    // 3D Logos
+    // ganesh logos
+    {
+      id: "gl1",
+      name: "ganesh Logo 01",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 01.jpeg",
+    },
+    {
+      id: "gl2",
+      name: "ganesh Logo 02",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 02.jpeg",
+    },
+    {
+      id: "gl3",
+      name: "ganesh Logo 03",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 03.jpeg",
+    },
+    {
+      id: "gl4",
+      name: "ganesh Logo 04",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 04.jpeg",
+    },
+    {
+      id: "gl5",
+      name: "ganesh Logo 05",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 05.jpeg",
+    },
+    {
+      id: "gl6",
+      name: "ganesh Logo 06",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 06.jpeg",
+    },
+    {
+      id: "gl7",
+      name: "ganesh Logo 07",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 07.jpeg",
+    },
+    {
+      id: "gl8",
+      name: "ganesh Logo 08",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 08.jpeg",
+    },
+    {
+      id: "gl9",
+      name: "ganesh Logo 09",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 09.jpeg",
+    },
+    {
+      id: "gl10",
+      name: "ganesh Logo 10",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 10.jpeg",
+    },
+    {
+      id: "gl11",
+      name: "ganesh Logo 11",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 11.jpeg",
+    },
+    {
+      id: "gl12",
+      name: "ganesh Logo 12",
+      price: 250,
+      category: "logo",
+      thumbnail: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 12.jpeg",
+    },
+
+    // Navratri Logos
+    {
+      id: "nl1",
+      name: "Navratri Logo 01",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 01.jpeg",
+    },
+    {
+      id: "nl2",
+      name: "Navratri Logo 02",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 02.jpeg",
+    },
+    {
+      id: "nl3",
+      name: "Navratri Logo 03",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 03.jpeg",
+    },
+    {
+      id: "nl4",
+      name: "Navratri Logo 04",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 04.jpeg",
+    },
+    {
+      id: "nl5",
+      name: "Navratri Logo 05",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 05.jpeg",
+    },
+    {
+      id: "nl6",
+      name: "Navratri Logo 06",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 06.jpeg",
+    },
+    {
+      id: "nl7",
+      name: "Navratri Logo 07",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 07.jpeg",
+    },
+    {
+      id: "nl8",
+      name: "Navratri Logo 08",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 08.jpeg",
+    },
+    {
+      id: "nl9",
+      name: "Navratri Logo 09",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 09.jpeg",
+    },
+    {
+      id: "nl10",
+      name: "Navratri Logo 10",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 10.jpeg",
+    },
+    {
+      id: "nl11",
+      name: "Navratri Logo 11",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 11.jpeg",
+    },
+    {
+      id: "nl12",
+      name: "Navratri Logo 12",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 12.jpeg",
+    },
+    {
+      id: "nl13",
+      name: "Navratri Logo 13",
+      price: 250,
+      category: "logo",
+      thumbnail:
+        "/products/3D Logos/navratriMandalLogos/3D Navratri Logo 13.jpeg",
+    },
+  ];
+
+  const categories: Category[] = [
+    {
+      id: "wedding",
+      name: "Wedding Cards",
+      nameMarathi: "लग्न पत्रिका",
+      description: "Elegant wedding invitation and banner designs",
+      count: allProducts.filter((p) => p.category === "wedding").length,
+      icon: "/products/wedding/wedding card with photo/wedding-01.jpeg", // Add this
+    },
+    {
+      id: "प्रथम पुण्यस्मरण",
+      name: "First Memorial",
+      nameMarathi: "प्रथम पुण्यस्मरण",
+      description: "Memorial cards and remembrance designs",
+      count: allProducts.filter((p) => p.category === "प्रथम पुण्यस्मरण")
+        .length,
+      icon: "/products/First Memorial/First Memorial-01.jpeg", // Add this
+    },
+    {
+      id: "birthday",
+      name: "Birthday",
+      description: "Creative birthday banner and poster designs",
+      count: allProducts.filter((p) => p.category === "birthday").length,
+      icon: "/products/birthday/birthday-01.jpeg", // Add this
+    },
+    {
+      id: "engagement",
+      name: "Engagement",
+      description: "Beautiful engagement invitation cards",
+      count: allProducts.filter((p) => p.category === "engagement").length,
+      icon: "/products/engagement/engagement-01.jpeg", // Add this
+    },
+    {
+      id: "House warning",
+      name: "House Warming",
+      description: "Housewarming ceremony invitations",
+      count: allProducts.filter((p) => p.category === "House warning").length,
+      icon: "/products/House warning/House warning-01.jpeg", // Add this
+    },
+    {
+      id: "Baby shower",
+      name: "Baby Shower",
+      description: "Baby shower celebration cards",
+      count: allProducts.filter((p) => p.category === "Baby shower").length,
+      icon: "/products/Baby shower/Baby shower-01.jpeg", // Add this
+    },
+    {
+      id: "Naming Ceremony",
+      name: "Naming Ceremony",
+      description: "Naming ceremony invitation cards",
+      count: allProducts.filter((p) => p.category === "Naming Ceremony").length,
+      icon: "/products/Naming Ceremony/Naming Ceremony-01.jpeg", // Add this
+    },
+    {
+      id: "logo",
+      name: "3D Logos",
+      description: "Professional 3D logo designs",
+      count: allProducts.filter((p) => p.category === "logo").length,
+      icon: "/products/3D Logos/ganeshMandalLogos/3D ganesh Logo 01.jpeg", // Add this
+    },
+  ];
+
+  const filteredProducts = selectedCategory
+    ? allProducts.filter((product) => {
+        const matchesCategory = product.category === selectedCategory.id;
+        const matchesSearch =
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (product.nameMarathi && product.nameMarathi.includes(searchQuery));
+        return matchesCategory && matchesSearch;
+      })
+    : [];
+
+  const stats = [
+    { icon: Users, label: "Subscribers", value: "15.9K" },
+    { icon: Video, label: "Videos", value: "873" },
+    { icon: Eye, label: "Total Views", value: "2.7M+" },
+    {
+      icon: ShoppingBag,
+      label: "Products",
+      value: allProducts.length.toString(),
+    },
+  ];
+
+  const milestones = [
+    { count: "1K", date: "27 Jun 2021" },
+    { count: "5K", date: "29 Sep 2023" },
+    { count: "10K", date: "24 Aug 2024" },
+    { count: "15K", date: "27 Jul 2025" },
+  ];
+
+  const handleOrderOnWhatsApp = (product: Product) => {
+    const productName = product.nameMarathi
+      ? `${product.nameMarathi} (${product.name})`
+      : product.name;
+    const message = `Hi! I want to order:\n\n📦 ${productName}\n💰 Price: ₹${product.price}\n\nPlease confirm availability.`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/918805817052?text=${encodedMessage}`, "_blank");
+  };
+
+  const scrollToSection = (section: string) => {
+    setActiveSection(section);
+    setIsMenuOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const openCategory = (category: Category) => {
+    setSelectedCategory(category);
+    setSelectedProduct(null);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <nav className="bg-gradient-to-r from-black via-gray-900 to-black shadow-2xl fixed w-full top-0 z-50 border-b border-red-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => scrollToSection("home")}
+            >
+              <img
+                src="/logo.png"
+                alt="Shivam Editing Zone Logo"
+                className="w-12 h-12 object-contain"
+              />
+              <div>
+                <span className="text-xl font-black bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">
+                  SHIVAM
+                </span>
+                <div className="text-xs text-white font-medium tracking-wider">
+                  EDITING ZONE
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:flex space-x-1">
+              {["home", "catalog", "about", "contact"].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`relative px-6 py-2 capitalize font-semibold transition-all duration-300 rounded-lg group ${
+                    activeSection === section
+                      ? "text-white"
+                      : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {activeSection === section && (
+                    <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-500 rounded-lg"></span>
+                  )}
+                  <span className="relative z-10">{section}</span>
+                  {activeSection !== section && (
+                    <span className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  )}
+                </button>
+              ))}
+            </div>
+            <button
+              className="md:hidden text-white hover:text-red-500 transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+        {isMenuOpen && (
+          <div className="md:hidden bg-black/95 backdrop-blur-lg border-t border-red-500/20">
+            {["home", "catalog", "about", "contact"].map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`block w-full text-left px-6 py-4 capitalize font-semibold transition-all ${
+                  activeSection === section
+                    ? "bg-gradient-to-r from-red-600 to-orange-600 text-white"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {section}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {activeSection === "home" && (
+        <>
+          <section className="pt-24 pb-16 px-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center">
+                <div className="inline-flex items-center space-x-2 bg-red-100 px-4 py-2 rounded-full mb-6">
+                  <Sparkles className="w-5 h-5 text-red-600" />
+                  <span className="text-red-600 font-semibold">
+                    Welcome to Shivam Editing Zone
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                  Professional Design
+                  <span className="block text-red-600">Catalog</span>
+                </h1>
+                <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                  Browse our complete collection of {allProducts.length}+
+                  professional designs for weddings, birthdays, festivals, and
+                  business needs.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <button
+                    onClick={() => scrollToSection("catalog")}
+                    className="flex items-center space-x-2 bg-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-red-700 transition-all"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Browse Catalog</span>
+                  </button>
+                  <a
+                    href="https://wa.me/918805817052"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-all"
+                  >
+                    <Phone className="w-5 h-5" />
+                    <span>Contact on WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+                {stats.map((stat, index) => {
+                  const IconComponent = stat.icon;
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white rounded-xl p-6 shadow-lg text-center"
+                    >
+                      <IconComponent className="w-8 h-8 mx-auto mb-3 text-red-600" />
+                      <div className="text-3xl font-bold text-gray-900 mb-1">
+                        {stat.value}
+                      </div>
+                      <div className="text-gray-600 text-sm">{stat.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className="py-12 px-4 bg-gradient-to-br from-gray-900 via-red-900 to-black relative overflow-hidden">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-10 left-10 w-48 h-48 bg-red-500 rounded-full filter blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-10 right-10 w-64 h-64 bg-orange-500 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+              <div className="absolute top-1/2 left-1/2 w-56 h-56 bg-pink-500 rounded-full filter blur-3xl animate-pulse delay-500"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className="text-center mb-10">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl mb-4 animate-bounce shadow-2xl">
+                  <Award className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 tracking-tight">
+                  Our{" "}
+                  <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
+                    Journey
+                  </span>
+                </h2>
+                <p className="text-white text-lg opacity-90">
+                  Celebrating growth milestones together
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                {milestones.map((milestone, index) => (
+                  <div
+                    key={index}
+                    className="group relative"
+                    style={{
+                      animation: `slideInUp 0.6s ease-out ${
+                        index * 0.15
+                      }s both`,
+                    }}
+                  >
+                    {/* Card Glow Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+
+                    {/* Card Content */}
+                    <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 border border-red-500/30 group-hover:border-red-500/60 transition-all duration-300 transform group-hover:scale-105 group-hover:-translate-y-2">
+                      {/* Animated Corner Accent */}
+                      <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-red-500/20 to-transparent rounded-bl-3xl"></div>
+                      <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-orange-500/20 to-transparent rounded-tr-3xl"></div>
+
+                      {/* Content */}
+                      <div className="relative">
+                        <div className="text-5xl md:text-6xl font-black mb-3">
+                          <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent animate-pulse">
+                            {milestone.count}
+                          </span>
+                        </div>
+                        <div className="h-1 w-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-full mb-3 group-hover:w-full transition-all duration-500"></div>
+                        <div className="text-white/80 font-medium text-sm">
+                          {milestone.date}
+                        </div>
+
+                        {/* Subscriber Badge */}
+                        <div className="mt-3 inline-flex items-center px-2 py-1 bg-red-500/20 rounded-full text-xs text-red-400 font-semibold">
+                          <Users className="w-3 h-3 mr-1" />
+                          Subscribers
+                        </div>
+                      </div>
+
+                      {/* Shine Effect */}
+                      <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                        <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Additional Stats */}
+              <div className="mt-10 text-center">
+                <div className="inline-flex items-center space-x-6 bg-white/5 backdrop-blur-lg rounded-full px-6 py-3 border border-white/10">
+                  <div className="flex items-center space-x-2">
+                    <Video className="w-4 h-4 text-red-400" />
+                    <span className="text-white font-semibold text-sm">
+                      873 Videos
+                    </span>
+                  </div>
+                  <div className="w-px h-4 bg-white/20"></div>
+                  <div className="flex items-center space-x-2">
+                    <Eye className="w-4 h-4 text-orange-400" />
+                    <span className="text-white font-semibold text-sm">
+                      2.7M+ Views
+                    </span>
+                  </div>
+                  <div className="w-px h-4 bg-white/20"></div>
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="w-4 h-4 text-yellow-400" />
+                    <span className="text-white font-semibold text-sm">
+                      Since 2019
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CSS Animation */}
+            <style>{`
+              @keyframes slideInUp {
+                from {
+                  opacity: 0;
+                  transform: translateY(30px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+              .delay-500 {
+                animation-delay: 500ms;
+              }
+              .delay-1000 {
+                animation-delay: 1000ms;
+              }
+            `}</style>
+          </section>
+
+          {/* Meet The Creator Section */}
+          <section className="py-16 px-4 bg-gradient-to-br from-gray-50 via-white to-slate-50 relative overflow-hidden">
+            {/* Animated Background Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(239,68,68,.05) 10px, rgba(239,68,68,.05) 20px)",
+                }}
+              ></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto relative z-10">
+              {/* Banner Image Container */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl mb-8 group">
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+
+                {/* Main Banner */}
+                <div className="relative bg-gradient-to-r from-black via-gray-900 to-black border-2 border-red-500/30 group-hover:border-red-500/60 transition-all duration-300">
+                  <img
+                    src="banner.png"
+                    alt="Shivam - Creator of Shivam Editing Zone"
+                    className="w-full h-auto object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                      e.currentTarget
+                        .parentElement!.querySelector(".fallback-banner")!
+                        .classList.remove("hidden");
+                    }}
+                  />
+
+                  {/* Fallback Banner Design */}
+                  <div className="fallback-banner hidden">
+                    <div className="relative h-64 md:h-80 flex items-center justify-center bg-gradient-to-r from-black via-red-900 to-black">
+                      <div className="text-center">
+                        <img
+                          src="/logo.png"
+                          alt="Logo"
+                          className="w-32 h-32 mx-auto mb-4 animate-pulse"
+                        />
+                        <h3 className="text-4xl md:text-6xl font-bold text-white mb-2">
+                          THE OFFICIAL CHANNEL OF
+                        </h3>
+                        <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent mb-4">
+                          SHIVAM
+                        </h2>
+                        <p className="text-2xl md:text-4xl font-bold text-white tracking-wider">
+                          EDITING ZONE
+                        </p>
+                        <div className="flex justify-center space-x-4 mt-6">
+                          <a
+                            href="https://www.youtube.com/@Shivameditingzone"
+                            className="bg-red-600 p-3 rounded-full hover:scale-110 transition-transform"
+                          >
+                            <Youtube className="w-6 h-6 text-white" />
+                          </a>
+                          <a
+                            href="https://wa.me/918805817052"
+                            className="bg-green-600 p-3 rounded-full hover:scale-110 transition-transform"
+                          >
+                            <Phone className="w-6 h-6 text-white" />
+                          </a>
+                          <a
+                            href="https://www.instagram.com/shivam_art21"
+                            className="bg-pink-600 p-3 rounded-full hover:scale-110 transition-transform"
+                          >
+                            <Instagram className="w-6 h-6 text-white" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Shine Effect Overlay */}
+                  <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
+                </div>
+              </div>
+
+              {/* Creator Info Cards */}
+              <div className="grid md:grid-cols-3 gap-6">
+                {/* About Card */}
+                <div className="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-red-400 transition-all hover:scale-105 transform duration-300 shadow-lg hover:shadow-xl">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="bg-red-100 p-3 rounded-lg">
+                      <Users className="w-6 h-6 text-red-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      The Creator
+                    </h3>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    Hi! I'm{" "}
+                    <span className="text-red-600 font-semibold">Shivam</span>,
+                    a passionate graphic designer specializing in wedding cards,
+                    banners, and festival designs. Creating magic since 2019! ✨
+                  </p>
+                </div>
+
+                {/* Mission Card */}
+                <div className="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-orange-400 transition-all hover:scale-105 transform duration-300 shadow-lg hover:shadow-xl">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="bg-orange-100 p-3 rounded-lg">
+                      <Award className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      Our Mission
+                    </h3>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    To provide{" "}
+                    <span className="text-orange-600 font-semibold">
+                      affordable, high-quality
+                    </span>{" "}
+                    designs for every special occasion, helping you celebrate
+                    life's beautiful moments! 🎨
+                  </p>
+                </div>
+
+                {/* CTA Card */}
+                <div className="bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl p-6 hover:scale-105 transform transition-all duration-300 shadow-xl hover:shadow-2xl">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="bg-white/20 p-3 rounded-lg">
+                      <Heart className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white">
+                      Join Our Family
+                    </h3>
+                  </div>
+                  <p className="text-white/95 mb-4 leading-relaxed">
+                    15.9K+ designers trust us. Subscribe for free tutorials and
+                    exclusive resources!
+                  </p>
+                  <a
+                    href="https://www.youtube.com/@Shivameditingzone"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 bg-white text-red-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-all shadow-lg"
+                  >
+                    <Youtube className="w-5 h-5" />
+                    <span>Subscribe Now</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {activeSection === "catalog" && !selectedCategory && (
+        <section className="pt-24 pb-16 px-4 min-h-screen bg-gradient-to-br from-gray-50 via-white to-slate-50">
+          <div className="max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full mb-4">
+                <ShoppingBag className="w-5 h-5 text-indigo-600" />
+                <span className="text-indigo-600 font-semibold">
+                  Our Design Collection
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                BROWSE{" "}
+                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  SERVICES
+                </span>
+              </h2>
+              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                Explore our complete collection of {allProducts.length}+
+                professional designs for every special occasion
+              </p>
+            </div>
+
+            {/* Categories Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {categories.map((category, index) => (
+                <div
+                  key={category.id}
+                  onClick={() => openCategory(category)}
+                  className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-indigo-300 transition-all duration-300 cursor-pointer hover:shadow-2xl transform hover:-translate-y-2"
+                  style={{
+                    animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
+                  }}
+                >
+                  {/* Image Container */}
+                  <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                    <img
+                      src={category.icon}
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=300&fit=crop";
+                      }}
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+                    {/* Product Count Badge */}
+                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-indigo-600 px-3 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center space-x-1">
+                      <span>{category.count}</span>
+                      <span className="text-xs text-gray-500">items</span>
+                    </div>
+
+                    {/* Category Name on Image */}
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <h3 className="text-white font-bold text-xl mb-1 drop-shadow-lg">
+                        {category.nameMarathi || category.name}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5">
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                      {category.description}
+                    </p>
+
+                    {/* Browse Button */}
+                    <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2.5 rounded-lg font-semibold text-sm group-hover:shadow-lg transition-all">
+                      <span>Browse Designs</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+
+                  {/* Hover Shine Effect */}
+                  <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"></div>
+                </div>
+              ))}
+            </div>
+
+            {/* Info Section */}
+            <div className="mt-16 text-center">
+              <div className="inline-flex flex-wrap items-center justify-center gap-4 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl px-8 py-5 border border-indigo-200 shadow-sm">
+                <div className="flex items-center space-x-2">
+                  <div className="bg-indigo-100 p-2 rounded-lg">
+                    <ShoppingBag className="w-5 h-5 text-indigo-600" />
+                  </div>
+                  <span className="text-gray-900 font-semibold">
+                    {allProducts.length} Products
+                  </span>
+                </div>
+                <div className="w-px h-6 bg-indigo-300"></div>
+                <div className="flex items-center space-x-2">
+                  <div className="bg-green-100 p-2 rounded-lg">
+                    <IndianRupee className="w-5 h-5 text-green-600" />
+                  </div>
+                  <span className="text-gray-900 font-semibold">
+                    Starting ₹150
+                  </span>
+                </div>
+                <div className="w-px h-6 bg-indigo-300"></div>
+                <div className="flex items-center space-x-2">
+                  <div className="bg-yellow-100 p-2 rounded-lg">
+                    <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                  </div>
+                  <span className="text-gray-900 font-semibold">
+                    Premium Quality
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CSS Animation */}
+          <style>{`
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    `}</style>
+        </section>
+      )}
+
+      {selectedCategory && !selectedProduct && (
+        <section className="pt-24 pb-16 px-4 min-h-screen">
+          <div className="max-w-7xl mx-auto">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="flex items-center space-x-2 text-red-600 hover:text-red-700 mb-8"
+            >
+              <ArrowRight className="w-5 h-5 transform rotate-180" />
+              <span>Back to Categories</span>
+            </button>
+            <div className="mb-8">
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                {selectedCategory.nameMarathi || selectedCategory.name}
+              </h2>
+              <p className="text-gray-600 text-lg">
+                {selectedCategory.description}
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                {selectedCategory.count} products available
+              </p>
+            </div>
+
+            {/* Search */}
+            <div className="mb-8 max-w-2xl mx-auto">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Products Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all transform hover:-translate-y-2"
+                >
+                  <div
+                    className="relative aspect-[3/4] overflow-hidden cursor-pointer"
+                    onClick={() => setSelectedProduct(product)}
+                  >
+                    <img
+                      src={product.thumbnail}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-lg text-sm font-bold flex items-center">
+                      <IndianRupee className="w-3 h-3" />
+                      {product.price}
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">
+                      {product.nameMarathi || product.name}
+                    </h3>
+                    {product.nameMarathi && (
+                      <p className="text-xs text-gray-500 mb-2">
+                        {product.name}
+                      </p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-green-600 font-bold flex items-center">
+                        <IndianRupee className="w-4 h-4" />
+                        {product.price}
+                      </span>
+                      <button
+                        onClick={() => handleOrderOnWhatsApp(product)}
+                        className="text-xs bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700"
+                      >
+                        Order
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">
+                  No products found matching your search.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedProduct(null)}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    {selectedProduct.nameMarathi || selectedProduct.name}
+                  </h3>
+                  {selectedProduct.nameMarathi && (
+                    <p className="text-gray-600">{selectedProduct.name}</p>
+                  )}
+                </div>
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
+                <img
+                  src={selectedProduct.thumbnail}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between bg-green-50 p-4 rounded-lg">
+                  <span className="text-gray-700 font-medium">Price:</span>
+                  <span className="text-3xl font-bold text-green-600 flex items-center">
+                    <IndianRupee className="w-6 h-6" />
+                    {selectedProduct.price}
+                  </span>
+                </div>
+
+                <div className="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>✓ Customizable</strong> - Add your personal details
+                  </p>
+                  <p className="text-sm text-blue-800 mt-2">
+                    <strong>✓ High Quality</strong> - Print-ready design
+                  </p>
+                  <p className="text-sm text-blue-800 mt-2">
+                    <strong>✓ Fast Delivery</strong> - 24-48 hours
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => handleOrderOnWhatsApp(selectedProduct)}
+                  className="w-full flex items-center justify-center space-x-2 bg-green-600 text-white px-6 py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-all"
+                >
+                  <Phone className="w-6 h-6" />
+                  <span>Order on WhatsApp - ₹{selectedProduct.price}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeSection === "about" && (
+        <section className="pt-24 pb-16 px-4 bg-white min-h-screen">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                About Us
+              </h2>
+              <div className="w-20 h-1 bg-red-600 mx-auto mb-8"></div>
+            </div>
+            <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 shadow-lg">
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                🇮🇳 Namaste Friends! I am Shivam, and welcome to{" "}
+                <strong>Shivam Editing Zone</strong>! Your complete destination
+                for professional design services.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                Since <strong>13 July 2019</strong>, we have been creating
+                quality designs for weddings, birthdays, festivals, and business
+                needs.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                <strong>Our Services:</strong>
+              </p>
+              <ul className="space-y-3 mb-6">
+                <li className="flex items-start">
+                  <span className="text-red-600 mr-3 text-xl">✓</span>
+                  <span className="text-gray-700">
+                    {allProducts.length}+ ready-made professional designs
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-600 mr-3 text-xl">✓</span>
+                  <span className="text-gray-700">
+                    Affordable prices starting from ₹150
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-600 mr-3 text-xl">✓</span>
+                  <span className="text-gray-700">
+                    100% customizable designs
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-600 mr-3 text-xl">✓</span>
+                  <span className="text-gray-700">
+                    Fast delivery within 24-48 hours
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-600 mr-3 text-xl">✓</span>
+                  <span className="text-gray-700">
+                    Free design tutorials on YouTube
+                  </span>
+                </li>
+              </ul>
+              <div className="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-600 p-6 rounded-r-lg mb-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  📈 Our Milestones
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {milestones.map((milestone, index) => (
+                    <div key={index} className="text-center">
+                      <div className="text-2xl font-bold text-red-600">
+                        {milestone.count}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {milestone.date}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <Heart className="w-8 h-8 text-red-600 mb-2" />
+                <p className="text-gray-800 font-semibold text-lg">
+                  ❤️ Thank You for Your Love and Support! ❤️
+                </p>
+                <p className="text-gray-600 mt-2">
+                  Subscribe to our YouTube channel for design tutorials!
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeSection === "contact" && (
+        <section className="pt-24 pb-16 px-4 bg-white min-h-screen">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Contact Us
+              </h2>
+              <div className="w-20 h-1 bg-red-600 mx-auto mb-8"></div>
+              <p className="text-gray-600 text-lg">
+                Get in touch for orders or inquiries
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl p-6 shadow-lg">
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-red-100 p-3 rounded-lg">
+                      <Mail className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1">Email</h3>
+                      <p className="text-gray-600">For business inquiries</p>
+                      <a
+                        href="mailto:sv43849@gmail.com"
+                        className="text-sm text-red-600 hover:text-red-700 mt-2 block"
+                      >
+                        sv43849@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl p-6 shadow-lg">
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-green-100 p-3 rounded-lg">
+                      <Phone className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1">WhatsApp</h3>
+                      <p className="text-gray-600">Quick response for orders</p>
+                      <a
+                        href="https://wa.me/918805817052"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-green-600 hover:text-green-700 mt-2 block"
+                      >
+                        +91 88058 17052
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl p-6 shadow-lg">
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-blue-100 p-3 rounded-lg">
+                      <MapPin className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1">Location</h3>
+                      <p className="text-gray-600">
+                        Karad, Maharashtra, India 🇮🇳
+                      </p>
+                      <p className="text-sm text-gray-500 mt-2">Pin: 415539</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  Connect With Us
+                </h3>
+                <a
+                  href="https://www.youtube.com/@Shivameditingzone"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 bg-red-50 hover:bg-red-100 p-4 rounded-xl transition-all"
+                >
+                  <div className="bg-red-600 p-3 rounded-lg">
+                    <Youtube className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">YouTube</h4>
+                    <p className="text-sm text-gray-600">
+                      @Shivameditingzone - 15.9K Subscribers
+                    </p>
+                  </div>
+                </a>
+                <a
+                  href="https://www.facebook.com/shivam.vishwakarma.3150"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 bg-blue-50 hover:bg-blue-100 p-4 rounded-xl transition-all"
+                >
+                  <div className="bg-blue-600 p-3 rounded-lg">
+                    <Facebook className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Facebook</h4>
+                    <p className="text-sm text-gray-600">Shivam Vishwakarma</p>
+                  </div>
+                </a>
+                <a
+                  href="https://www.instagram.com/shivam_art21"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 bg-pink-50 hover:bg-pink-100 p-4 rounded-xl transition-all"
+                >
+                  <div className="bg-pink-600 p-3 rounded-lg">
+                    <Instagram className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Instagram</h4>
+                    <p className="text-sm text-gray-600">@shivam_art21</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <img
+                  src="/public/logo.png"
+                  alt="Shivam Editing Zone Logo"
+                  className="w-10 h-10 object-contain"
+                />
+                <h3 className="text-xl font-bold">Shivam Editing Zone</h3>
+              </div>
+              <p className="text-gray-400 mb-4">
+                Professional design solutions for all your needs.
+              </p>
+              <div className="space-y-2 text-sm text-gray-400">
+                <p>📧 sv43849@gmail.com</p>
+                <p>📱 +91 88058 17052</p>
+                <p>📍 Karad, Maharashtra</p>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+                <li>
+                  <button
+                    onClick={() => scrollToSection("home")}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("catalog")}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Product Catalog
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("about")}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    About
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("contact")}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Contact
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Popular Categories</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>Wedding Cards - लग्न पत्रिका</li>
+                <li>3D Logos</li>
+                <li>Birthday Banners</li>
+                <li>Business Designs</li>
+                <li>{allProducts.length}+ Products</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Follow Us</h4>
+              <div className="flex space-x-4 mb-4">
+                <a
+                  href="https://www.youtube.com/@Shivameditingzone"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 p-2 rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  <Youtube className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://www.facebook.com/shivam.vishwakarma.3150"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 p-2 rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://www.instagram.com/shivam_art21"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 p-2 rounded-lg hover:bg-pink-600 transition-colors"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              </div>
+              <a
+                href="https://wa.me/918805817052"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-green-600 text-white px-4 py-2 rounded-lg text-sm text-center hover:bg-green-700 transition-colors"
+              >
+                Order on WhatsApp
+              </a>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8 text-center">
+            <p className="text-gray-400">
+              &copy; 2025 Shivam Editing Zone. All rights reserved.
+            </p>
+            <p className="text-gray-500 text-sm mt-2">
+              Joined: 13 July 2019 | 15.9K Subscribers | 873 Videos | 2.7M+
+              Views
+            </p>
+            <p className="text-gray-500 text-sm mt-1">
+              {allProducts.length} Products Available
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
