@@ -963,7 +963,7 @@ const App = () => {
               onClick={() => scrollToSection("home")}
             >
               <img
-                src="/logo.png"
+                src="/products/logo.png"
                 alt="Shivam Editing Zone Logo"
                 className="w-12 h-12 object-contain"
               />
