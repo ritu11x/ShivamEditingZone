@@ -1040,8 +1040,8 @@ const App = () => {
                   </span>
                 </div>
                 <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                  Professional Design
-                  <span className="block text-red-600">Catalog</span>
+                  PROFESSIONAL DESIGN
+                  <span className="block text-red-600">CATALOG</span>
                 </h1>
                 <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                   Browse our complete collection of {allProducts.length}+
