@@ -850,16 +850,16 @@ const App = () => {
       nameMarathi: "लग्न पत्रिका",
       description: "Elegant wedding invitation and banner designs",
       count: allProducts.filter((p) => p.category === "wedding").length,
-      icon: "/products/wedding/wedding card with photo/wedding-01.jpeg", // Add this
+      icon: "/products/wedding/wedding-card-with-photo/wedding-01.jpeg", // Add this
     },
     {
       id: "प्रथम पुण्यस्मरण",
-      name: "First-Memorial",
+      name: "First Memorial",
       nameMarathi: "प्रथम पुण्यस्मरण",
       description: "Memorial cards and remembrance designs",
       count: allProducts.filter((p) => p.category === "प्रथम पुण्यस्मरण")
         .length,
-      icon: "/products/First-Memorial/First-Memorial-01.jpeg", // Add this
+      icon: "/products/first-memorial/first-memorial-01.jpeg", // Add this
     },
     {
       id: "birthday",
@@ -880,28 +880,28 @@ const App = () => {
       name: "House Warming",
       description: "Housewarming ceremony invitations",
       count: allProducts.filter((p) => p.category === "House-Warning").length,
-      icon: "/products/House-Warning/House-Warning-01.jpeg", // Add this
+      icon: "/products/house-warning/house-warning-01.jpeg", // Add this
     },
     {
       id: "Baby-Shower",
-      name: "Baby-Shower",
+      name: "Baby Shower",
       description: "Baby-Shower celebration cards",
       count: allProducts.filter((p) => p.category === "Baby-Shower").length,
-      icon: "/products/Baby-Shower/Baby-Shower-01.jpeg", // Add this
+      icon: "/products/baby-shower/baby-shower-01.jpeg", // Add this
     },
     {
       id: "Naming-Ceremony",
-      name: "Naming-Ceremony",
+      name: "Naming Ceremony",
       description: "Naming-Ceremony invitation cards",
       count: allProducts.filter((p) => p.category === "Naming-Ceremony").length,
-      icon: "/products/Naming-Ceremony/Naming-Ceremony-01.jpeg", // Add this
+      icon: "/products/naming-ceremony/naming-ceremony-01.jpeg", // Add this
     },
     {
       id: "logo",
-      name: "3D-Logos",
+      name: "3D Logos",
       description: "Professional 3D logo designs",
       count: allProducts.filter((p) => p.category === "logo").length,
-      icon: "/products/3D-Logos/ganeshMandalLogos/3D ganesh Logo 01.jpeg", // Add this
+      icon: "/products/3d-logos/ganeshmandallogos/3d-ganesh-logo-01.jpeg", // Add this
     },
   ];
 
