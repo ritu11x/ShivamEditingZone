@@ -1768,7 +1768,7 @@ useEffect(() => {
                 <div className="relative">
                   <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black shadow-2xl border-2 border-red-500/30">
                     <img
-                      src="/public/aboutlogo.png"
+                      src="/aboutlogo.png"
                       alt="Shivam - Founder"
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -2187,7 +2187,7 @@ useEffect(() => {
       <div className="flex items-center gap-4 p-4">
         <div className="flex-shrink-0">
           <img
-            src="/public/popuplogo.png"
+            src="/popuplogo.png"
             alt="Logo"
             className="w-16 h-16 object-contain rounded-lg"
           />
