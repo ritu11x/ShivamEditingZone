@@ -1,5 +1,4 @@
-import { useState } from "react";
-import {
+ import { useState, useEffect } from "react";import {
   Menu,
   X,
   Users,
@@ -41,13 +40,22 @@ interface Category {
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState(() => {
+    // Get saved section from localStorage, default to "home"
+    return localStorage.getItem("activeSection") || "home";
+  });
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
+  const [formData, setFormData] = useState({
+    name: "",
+    whatsapp: "",
+    email: "",
+    message: "",
+  });
+  const [showYouTubePopup, setShowYouTubePopup] = useState(false);
   // Complete Product Catalog from WhatsApp Business
   const allProducts: Product[] = [
     // Wedding Cards (लग्न पत्रिका) - Using actual product images
@@ -755,91 +763,104 @@ const App = () => {
       name: "Navratri Logo 01",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-01.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-01.jpeg",
     },
     {
       id: "nl2",
       name: "Navratri Logo 02",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-02.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-02.jpeg",
     },
     {
       id: "nl3",
       name: "Navratri Logo 03",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-03.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-03.jpeg",
     },
     {
       id: "nl4",
       name: "Navratri Logo 04",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-04.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-04.jpeg",
     },
     {
       id: "nl5",
       name: "Navratri Logo 05",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-05.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-05.jpeg",
     },
     {
       id: "nl6",
       name: "Navratri Logo 06",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-06.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-06.jpeg",
     },
     {
       id: "nl7",
       name: "Navratri Logo 07",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-07.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-07.jpeg",
     },
     {
       id: "nl8",
       name: "Navratri Logo 08",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-08.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-08.jpeg",
     },
     {
       id: "nl9",
       name: "Navratri Logo 09",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-09.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-09.jpeg",
     },
     {
       id: "nl10",
       name: "Navratri Logo 10",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-10.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-10.jpeg",
     },
     {
       id: "nl11",
       name: "Navratri Logo 11",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-11.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-11.jpeg",
     },
     {
       id: "nl12",
       name: "Navratri Logo 12",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-12.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-12.jpeg",
     },
     {
       id: "nl13",
       name: "Navratri Logo 13",
       price: 250,
       category: "logo",
-      thumbnail: "/products/3d-logos/navratrimandallogos/3d-navratri-logo-13.jpeg",
+      thumbnail:
+        "/products/3d-logos/navratrimandallogos/3d-navratri-logo-13.jpeg",
     },
   ];
 
@@ -933,25 +954,73 @@ const App = () => {
     { count: "15K", date: "27 Jul 2025" },
   ];
 
+  // ADD THIS NEW ARRAY ⬇️
+
   const handleOrderOnWhatsApp = (product: Product) => {
     const productName = product.nameMarathi
       ? `${product.nameMarathi} (${product.name})`
       : product.name;
-    const message = `Hi! I want to order:\n\n📦 ${productName}\n💰 Price: ₹${product.price}\n\nPlease confirm availability.`;
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/918805817052?text=${encodedMessage}`, "_blank");
+
+    // Using direct emoji characters
+    const message = [
+      "👋 Hi!",
+      "",
+      "📦 Product: " + productName,
+      "💰 Price: Rs " + product.price,
+      "",
+      "I need:",
+      "✅ Customization details",
+      "⚡ Fast delivery",
+      "",
+      "Please confirm availability.",
+      "",
+      "🙏 Thanks!",
+    ].join("\n");
+
+    // Open WhatsApp with the message
+    const phoneNumber = "918805817052";
+    const url =
+      "https://api.whatsapp.com/send?phone=" +
+      phoneNumber +
+      "&text=" +
+      encodeURIComponent(message);
+    window.open(url, "_blank");
+  };
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = `New Contact Form Submission:\n\nName: ${formData.name}\nWhatsApp: ${formData.whatsapp}\nEmail: ${formData.email}\nMessage: ${formData.message}`;
+    const url = `https://wa.me/918805817052?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+    setFormData({ name: "", whatsapp: "", email: "", message: "" });
   };
 
   const scrollToSection = (section: string) => {
     setActiveSection(section);
     setIsMenuOpen(false);
     setSelectedProduct(null);
+    // Save to localStorage
+    localStorage.setItem("activeSection", section);
   };
 
   const openCategory = (category: Category) => {
     setSelectedCategory(category);
     setSelectedProduct(null);
+    // Make sure we're on catalog section
+    setActiveSection("catalog");
+    localStorage.setItem("activeSection", "catalog");
   };
+  // Show YouTube popup after 3 seconds
+useEffect(() => {
+  if (['home', 'about', 'contact', 'catalog'].includes(activeSection)) {
+    const timer = setTimeout(() => {
+      setShowYouTubePopup(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }
+}, [activeSection]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -1039,14 +1108,18 @@ const App = () => {
                     Welcome to Shivam Editing Zone
                   </span>
                 </div>
-                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+
+                <h1
+                  className="text-5xl md:text-6xl font-bold text-gray-900 mb-8"
+                  style={{ fontFamily: "Elsie Black, serif" }}
+                >
+                  {" "}
                   PROFESSIONAL DESIGN
                   <span className="block text-red-600">CATALOG</span>
                 </h1>
                 <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                  Browse our complete collection of {allProducts.length}+
-                  professional designs for weddings, birthdays, festivals, and
-                  business needs.
+                  Browse our complete collection of 5000+ professional designs
+                  for weddings, birthdays, festivals, and business needs.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <button
@@ -1065,6 +1138,71 @@ const App = () => {
                     <Phone className="w-5 h-5" />
                     <span>Contact on WhatsApp</span>
                   </a>
+                </div>
+
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl my-12 group">
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+
+                  {/* Main Banner */}
+                  <div className="relative bg-gradient-to-r from-black via-gray-900 to-black border-2 border-red-500/30 group-hover:border-red-500/60 transition-all duration-300">
+                    <img
+                      src="banner.png"
+                      alt="Shivam - Creator of Shivam Editing Zone"
+                      className="w-full h-auto object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget
+                          .parentElement!.querySelector(".fallback-banner")!
+                          .classList.remove("hidden");
+                      }}
+                    />
+
+                    {/* Fallback Banner Design */}
+                    <div className="fallback-banner hidden">
+                      <div className="relative h-64 md:h-80 flex items-center justify-center bg-gradient-to-r from-black via-red-900 to-black">
+                        <div className="text-center">
+                          <img
+                            src="/logo.png"
+                            alt="Logo"
+                            className="w-32 h-32 mx-auto mb-4 animate-pulse"
+                          />
+                          <h3 className="text-4xl md:text-6xl font-bold text-white mb-2">
+                            THE OFFICIAL CHANNEL OF
+                          </h3>
+                          <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent mb-4">
+                            SHIVAM
+                          </h2>
+                          <p className="text-2xl md:text-4xl font-bold text-white tracking-wider">
+                            EDITING ZONE
+                          </p>
+                          <div className="flex justify-center space-x-4 mt-6">
+                            <a
+                              href="https://www.youtube.com/@Shivameditingzone"
+                              className="bg-red-600 p-3 rounded-full hover:scale-110 transition-transform"
+                            >
+                              <Youtube className="w-6 h-6 text-white" />
+                            </a>
+                            <a
+                              href="https://wa.me/918805817052"
+                              className="bg-green-600 p-3 rounded-full hover:scale-110 transition-transform"
+                            >
+                              <Phone className="w-6 h-6 text-white" />
+                            </a>
+                            <a
+                              href="https://www.instagram.com/shivam_art21"
+                              className="bg-pink-600 p-3 rounded-full hover:scale-110 transition-transform"
+                            >
+                              <Instagram className="w-6 h-6 text-white" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Shine Effect Overlay */}
+                    <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
@@ -1101,9 +1239,9 @@ const App = () => {
                   <Award className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 tracking-tight">
-                  Our{" "}
+                  OUR{" "}
                   <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-                    Journey
+                    JOURNEY
                   </span>
                 </h2>
                 <p className="text-white text-lg opacity-90">
@@ -1222,70 +1360,6 @@ const App = () => {
 
             <div className="max-w-7xl mx-auto relative z-10">
               {/* Banner Image Container */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl mb-8 group">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
-
-                {/* Main Banner */}
-                <div className="relative bg-gradient-to-r from-black via-gray-900 to-black border-2 border-red-500/30 group-hover:border-red-500/60 transition-all duration-300">
-                  <img
-                    src="banner.png"
-                    alt="Shivam - Creator of Shivam Editing Zone"
-                    className="w-full h-auto object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      e.currentTarget
-                        .parentElement!.querySelector(".fallback-banner")!
-                        .classList.remove("hidden");
-                    }}
-                  />
-
-                  {/* Fallback Banner Design */}
-                  <div className="fallback-banner hidden">
-                    <div className="relative h-64 md:h-80 flex items-center justify-center bg-gradient-to-r from-black via-red-900 to-black">
-                      <div className="text-center">
-                        <img
-                          src="/logo.png"
-                          alt="Logo"
-                          className="w-32 h-32 mx-auto mb-4 animate-pulse"
-                        />
-                        <h3 className="text-4xl md:text-6xl font-bold text-white mb-2">
-                          THE OFFICIAL CHANNEL OF
-                        </h3>
-                        <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent mb-4">
-                          SHIVAM
-                        </h2>
-                        <p className="text-2xl md:text-4xl font-bold text-white tracking-wider">
-                          EDITING ZONE
-                        </p>
-                        <div className="flex justify-center space-x-4 mt-6">
-                          <a
-                            href="https://www.youtube.com/@Shivameditingzone"
-                            className="bg-red-600 p-3 rounded-full hover:scale-110 transition-transform"
-                          >
-                            <Youtube className="w-6 h-6 text-white" />
-                          </a>
-                          <a
-                            href="https://wa.me/918805817052"
-                            className="bg-green-600 p-3 rounded-full hover:scale-110 transition-transform"
-                          >
-                            <Phone className="w-6 h-6 text-white" />
-                          </a>
-                          <a
-                            href="https://www.instagram.com/shivam_art21"
-                            className="bg-pink-600 p-3 rounded-full hover:scale-110 transition-transform"
-                          >
-                            <Instagram className="w-6 h-6 text-white" />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Shine Effect Overlay */}
-                  <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
-                </div>
-              </div>
 
               {/* Creator Info Cards */}
               <div className="grid md:grid-cols-3 gap-6">
@@ -1363,15 +1437,15 @@ const App = () => {
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full mb-4">
-                <ShoppingBag className="w-5 h-5 text-indigo-600" />
-                <span className="text-indigo-600 font-semibold">
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-50 to-orange-50 px-4 py-2 rounded-full mb-4">
+                <ShoppingBag className="w-5 h-5 text-red-600" />
+                <span className="text-red-600 font-semibold">
                   Our Design Collection
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 BROWSE{" "}
-                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
                   SERVICES
                 </span>
               </h2>
@@ -1387,7 +1461,7 @@ const App = () => {
                 <div
                   key={category.id}
                   onClick={() => openCategory(category)}
-                  className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-indigo-300 transition-all duration-300 cursor-pointer hover:shadow-2xl transform hover:-translate-y-2"
+                  className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-red-400 transition-all duration-300 cursor-pointer hover:shadow-2xl transform hover:-translate-y-2"
                   style={{
                     animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
                   }}
@@ -1407,7 +1481,7 @@ const App = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
                     {/* Product Count Badge */}
-                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-indigo-600 px-3 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center space-x-1">
+                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-red-600 px-3 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center space-x-1">
                       <span>{category.count}</span>
                       <span className="text-xs text-gray-500">items</span>
                     </div>
@@ -1428,7 +1502,7 @@ const App = () => {
                     </p>
 
                     {/* Browse Button */}
-                    <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2.5 rounded-lg font-semibold text-sm group-hover:shadow-lg transition-all">
+                    <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-red-600 to-orange-600 text-white py-2.5 rounded-lg font-semibold text-sm group-hover:shadow-lg transition-all">
                       <span>Browse Designs</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
@@ -1442,16 +1516,16 @@ const App = () => {
 
             {/* Info Section */}
             <div className="mt-16 text-center">
-              <div className="inline-flex flex-wrap items-center justify-center gap-4 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl px-8 py-5 border border-indigo-200 shadow-sm">
+              <div className="inline-flex flex-wrap items-center justify-center gap-4 bg-gradient-to-r from-red-50 via-orange-50 to-yellow-50 rounded-2xl px-8 py-5 border border-red-200 shadow-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="bg-indigo-100 p-2 rounded-lg">
-                    <ShoppingBag className="w-5 h-5 text-indigo-600" />
+                  <div className="bg-red-100 p-2 rounded-lg">
+                    <ShoppingBag className="w-5 h-5 text-red-600" />
                   </div>
                   <span className="text-gray-900 font-semibold">
                     {allProducts.length} Products
                   </span>
                 </div>
-                <div className="w-px h-6 bg-indigo-300"></div>
+                <div className="w-px h-6 bg-red-300"></div>{" "}
                 <div className="flex items-center space-x-2">
                   <div className="bg-green-100 p-2 rounded-lg">
                     <IndianRupee className="w-5 h-5 text-green-600" />
@@ -1460,7 +1534,7 @@ const App = () => {
                     Starting ₹150
                   </span>
                 </div>
-                <div className="w-px h-6 bg-indigo-300"></div>
+                <div className="w-px h-6 bg-red-300"></div>{" "}
                 <div className="flex items-center space-x-2">
                   <div className="bg-yellow-100 p-2 rounded-lg">
                     <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
@@ -1499,7 +1573,10 @@ const App = () => {
         <section className="pt-24 pb-16 px-4 min-h-screen">
           <div className="max-w-7xl mx-auto">
             <button
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                setSelectedProduct(null);
+              }}
               className="flex items-center space-x-2 text-red-600 hover:text-red-700 mb-8"
             >
               <ArrowRight className="w-5 h-5 transform rotate-180" />
@@ -1567,7 +1644,10 @@ const App = () => {
                         {product.price}
                       </span>
                       <button
-                        onClick={() => handleOrderOnWhatsApp(product)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedProduct(product);
+                        }}
                         className="text-xs bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700"
                       >
                         Order
@@ -1659,85 +1739,134 @@ const App = () => {
       )}
 
       {activeSection === "about" && (
-        <section className="pt-24 pb-16 px-4 bg-white min-h-screen">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                About Us
+        <section className="pt-24 pb-16 px-4 bg-gradient-to-br from-gray-50 via-white to-slate-50">
+          <div className="max-w-6xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center space-x-2 bg-red-100 px-4 py-2 rounded-full mb-4">
+                <Award className="w-5 h-5 text-red-600" />
+                <span className="text-red-600 font-semibold">
+                  About Shivam Editing Zone
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                OUR{" "}
+                <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
+                  STORY
+                </span>
               </h2>
-              <div className="w-20 h-1 bg-red-600 mx-auto mb-8"></div>
+              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                Professional design services since 2019
+              </p>
             </div>
-            <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 shadow-lg">
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                🇮🇳 Namaste Friends! I am Shivam, and welcome to{" "}
-                <strong>Shivam Editing Zone</strong>! Your complete destination
-                for professional design services.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Since <strong>13 July 2019</strong>, we have been creating
-                quality designs for weddings, birthdays, festivals, and business
-                needs.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                <strong>Our Services:</strong>
-              </p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start">
-                  <span className="text-red-600 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700">
-                    {allProducts.length}+ ready-made professional designs
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-red-600 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700">
-                    Affordable prices starting from ₹150
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-red-600 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700">
-                    100% customizable designs
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-red-600 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700">
-                    Fast delivery within 24-48 hours
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-red-600 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700">
-                    Free design tutorials on YouTube
-                  </span>
-                </li>
-              </ul>
-              <div className="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-600 p-6 rounded-r-lg mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  📈 Our Milestones
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {milestones.map((milestone, index) => (
-                    <div key={index} className="text-center">
-                      <div className="text-2xl font-bold text-red-600">
-                        {milestone.count}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {milestone.date}
-                      </div>
+
+            {/* Profile Section */}
+            <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl p-8 md:p-12 shadow-xl mb-12">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                {/* Photo */}
+                {/* Photo */}
+                <div className="relative">
+                  <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black shadow-2xl border-2 border-red-500/30">
+                    <img
+                      src="/public/aboutlogo.png"
+                      alt="Shivam - Founder"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = "/logo.png";
+                      }}
+                    />
+                  </div>
+                  <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-red-600 to-orange-600 text-white px-6 py-3 rounded-2xl shadow-xl">
+                    <p className="text-sm font-semibold">Since 2019</p>
+                    <p className="text-2xl font-bold">15.9K+</p>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                    Hi! I'm <span className="text-red-600">Shivam</span> 👋
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed mb-6 text-lg">
+                    Founder of <strong>Shivam Editing Zone</strong> - Your
+                    complete destination for professional design services. Since{" "}
+                    <strong>July 13, 2019</strong>, I've been creating quality
+                    designs for weddings, birthdays, festivals, and business
+                    needs.
+                  </p>
+
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-start">
+                      <span className="text-red-600 mr-3 text-xl">✓</span>
+                      <span className="text-gray-700">
+                        {allProducts.length}+ Professional Designs
+                      </span>
                     </div>
-                  ))}
+                    <div className="flex items-start">
+                      <span className="text-red-600 mr-3 text-xl">✓</span>
+                      <span className="text-gray-700">
+                        Affordable prices from ₹150
+                      </span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-red-600 mr-3 text-xl">✓</span>
+                      <span className="text-gray-700">24-48 hour delivery</span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-red-600 mr-3 text-xl">✓</span>
+                      <span className="text-gray-700">100% customizable</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href="https://www.youtube.com/@Shivameditingzone"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all"
+                    >
+                      <Youtube className="w-4 h-4" />
+                      <span className="text-sm font-semibold">YouTube</span>
+                    </a>
+                    <a
+                      href="https://wa.me/918805817052"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all"
+                    >
+                      <Phone className="w-4 h-4" />
+                      <span className="text-sm font-semibold">WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div className="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
-                <Heart className="w-8 h-8 text-red-600 mb-2" />
-                <p className="text-gray-800 font-semibold text-lg">
-                  ❤️ Thank You for Your Love and Support! ❤️
+            </div>
+
+            {/* Thank You Card */}
+            <div className="bg-gradient-to-br from-gray-900 via-red-900 to-black rounded-2xl p-8 text-center text-white shadow-xl relative overflow-hidden">
+              {/* Add animated background like OUR JOURNEY */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-10 left-10 w-48 h-48 bg-red-500 rounded-full filter blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-10 right-10 w-64 h-64 bg-orange-500 rounded-full filter blur-3xl animate-pulse"></div>
+              </div>
+
+              <div className="relative z-10">
+                <Heart className="w-12 h-12 mx-auto mb-4" />
+                <h3 className="text-3xl font-bold mb-3">Thank You !</h3>
+                <p className="text-lg mb-6 text-white/90">
+                  Your love and support means everything to us. Subscribe for
+                  free design tutorials!
                 </p>
-                <p className="text-gray-600 mt-2">
-                  Subscribe to our YouTube channel for design tutorials!
-                </p>
+                <a
+                  href="https://www.youtube.com/@Shivameditingzone"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-all shadow-lg"
+                >
+                  <Youtube className="w-5 h-5" />
+                  <span>Subscribe Now</span>
+                  <ArrowRight className="w-5 h-5" />
+                </a>
               </div>
             </div>
           </div>
@@ -1858,6 +1987,66 @@ const App = () => {
                   </div>
                 </a>
               </div>
+            </div>
+          </div>
+          {/* Contact Form */}
+          <div className="mt-12 max-w-3xl mx-auto">
+            <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 shadow-xl">
+              {" "}
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                Send us a Message
+              </h3>
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Your Name *"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    required
+                    className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="WhatsApp Number *"
+                    value={formData.whatsapp}
+                    onChange={(e) =>
+                      setFormData({ ...formData, whatsapp: e.target.value })
+                    }
+                    required
+                    className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email Address *"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent resize-none"
+                />
+                <textarea
+                  placeholder="Your Message *"
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent resize-none"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white py-3 rounded-lg font-bold hover:from-red-700 hover:to-orange-700 transition-all flex items-center justify-center space-x-2"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Send Message via WhatsApp</span>
+                </button>
+              </form>
             </div>
           </div>
         </section>
@@ -1983,6 +2172,83 @@ const App = () => {
           </div>
         </div>
       </footer>
+
+      {/* YouTube Subscribe Popup - ADD HERE ⬇️ */}
+      {showYouTubePopup && (
+  <div className="fixed top-20 right-6 z-50 animate-slideInRight">
+    <div className="relative bg-white rounded-xl shadow-2xl w-[350px] border border-gray-200">
+      <button
+        onClick={() => setShowYouTubePopup(false)}
+        className="absolute -top-2 -right-2 bg-black text-white rounded-full p-1.5 hover:bg-gray-800 transition-all shadow-lg z-10"
+      >
+        <X className="w-4 h-4" />
+      </button>
+
+      <div className="flex items-center gap-4 p-4">
+        <div className="flex-shrink-0">
+          <img
+            src="/public/popuplogo.png"
+            alt="Logo"
+            className="w-16 h-16 object-contain rounded-lg"
+          />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base font-bold text-gray-900 mb-0.5 truncate">
+            Shivam Editing Zone
+          </h3>
+          <p className="text-gray-500 text-xs mb-3">
+            873 VIDEOS
+          </p>
+
+          <div className="flex items-center gap-3">
+            <a 
+              href="https://www.youtube.com/@Shivameditingzone?sub_confirmation=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-red-600 text-white px-4 py-1.5 rounded font-bold text-sm hover:bg-red-700 transition-all flex items-center gap-1.5"
+              onClick={() => setShowYouTubePopup(false)}
+            >
+              <Youtube className="w-4 h-4" />
+              SUBSCRIBE
+            </a>
+            <span className="text-blue-600 font-semibold text-sm whitespace-nowrap">
+              15.9K
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+      <style>{`
+        @keyframes slideInRight {
+          from {
+            transform: translateX(400px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        .animate-slideInRight {
+          animation: slideInRight 0.5s ease-out;
+        }
+      `}</style>
+
+      {/* Floating WhatsApp Button */}
+      
+        <a href="https://wa.me/918805817052"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-green-600 text-white p-4 rounded-full shadow-2xl hover:bg-green-700 transition-all z-50 animate-bounce hover:animate-none group"
+      >
+        <Phone className="w-6 h-6" />
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+          Chat with us!
+        </span>
+      </a>
     </div>
   );
 };
