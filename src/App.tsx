@@ -1,4 +1,4 @@
- import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Menu,
   X,
@@ -57,7 +57,7 @@ const App = () => {
     message: "",
   });
   const [showYouTubePopup, setShowYouTubePopup] = useState(false);
-  // Complete Product Catalog from WhatsApp Business
+  const [popupShownThisSession, setPopupShownThisSession] = useState(false); // Complete Product Catalog from WhatsApp Business
   const allProducts: Product[] = [
     // Wedding Cards (लग्न पत्रिका) - Using actual product images
     {
@@ -1014,17 +1014,15 @@ const App = () => {
   };
   // Show YouTube popup after 3 seconds
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem("hasSeenYouTubePopup");
-
-    if (activeSection === "home" && !hasSeenPopup) {
+    if (activeSection === "home" && !popupShownThisSession) {
       const timer = setTimeout(() => {
         setShowYouTubePopup(true);
-        localStorage.setItem("hasSeenYouTubePopup", "true");
+        setPopupShownThisSession(true);
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [activeSection]);
+  }, [activeSection, popupShownThisSession]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -2188,7 +2186,7 @@ const App = () => {
             <div className="flex items-center gap-4 p-4">
               <div className="flex-shrink-0">
                 <img
-                  src="/public/popuplogo.png"
+                  src="/popuplogo.png"
                   alt="Logo"
                   className="w-16 h-16 object-contain rounded-lg"
                 />
