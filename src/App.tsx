@@ -1,4 +1,5 @@
- import { useState, useEffect } from "react";import {
+ import { useState, useEffect } from "react";
+import {
   Menu,
   X,
   Users,
@@ -1012,15 +1013,18 @@ const App = () => {
     localStorage.setItem("activeSection", "catalog");
   };
   // Show YouTube popup after 3 seconds
-useEffect(() => {
-  if (['home', 'about', 'contact', 'catalog'].includes(activeSection)) {
-    const timer = setTimeout(() => {
-      setShowYouTubePopup(true);
-    }, 1000);
+  useEffect(() => {
+    const hasSeenPopup = localStorage.getItem("hasSeenYouTubePopup");
 
-    return () => clearTimeout(timer);
-  }
-}, [activeSection]);
+    if (activeSection === "home" && !hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowYouTubePopup(true);
+        localStorage.setItem("hasSeenYouTubePopup", "true");
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeSection]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -1718,9 +1722,6 @@ useEffect(() => {
                     <strong>✓ Customizable</strong> - Add your personal details
                   </p>
                   <p className="text-sm text-blue-800 mt-2">
-                    <strong>✓ High Quality</strong> - Print-ready design
-                  </p>
-                  <p className="text-sm text-blue-800 mt-2">
                     <strong>✓ Fast Delivery</strong> - 24-48 hours
                   </p>
                 </div>
@@ -1768,7 +1769,7 @@ useEffect(() => {
                 <div className="relative">
                   <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black shadow-2xl border-2 border-red-500/30">
                     <img
-                      src="/aboutlogo.png"
+                      src="/public/aboutlogo.png"
                       alt="Shivam - Founder"
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -2175,52 +2176,50 @@ useEffect(() => {
 
       {/* YouTube Subscribe Popup - ADD HERE ⬇️ */}
       {showYouTubePopup && (
-  <div className="fixed top-20 right-6 z-50 animate-slideInRight">
-    <div className="relative bg-white rounded-xl shadow-2xl w-[350px] border border-gray-200">
-      <button
-        onClick={() => setShowYouTubePopup(false)}
-        className="absolute -top-2 -right-2 bg-black text-white rounded-full p-1.5 hover:bg-gray-800 transition-all shadow-lg z-10"
-      >
-        <X className="w-4 h-4" />
-      </button>
-
-      <div className="flex items-center gap-4 p-4">
-        <div className="flex-shrink-0">
-          <img
-            src="/popuplogo.png"
-            alt="Logo"
-            className="w-16 h-16 object-contain rounded-lg"
-          />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <h3 className="text-base font-bold text-gray-900 mb-0.5 truncate">
-            Shivam Editing Zone
-          </h3>
-          <p className="text-gray-500 text-xs mb-3">
-            873 VIDEOS
-          </p>
-
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://www.youtube.com/@Shivameditingzone?sub_confirmation=1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-red-600 text-white px-4 py-1.5 rounded font-bold text-sm hover:bg-red-700 transition-all flex items-center gap-1.5"
+        <div className="fixed top-20 right-6 z-50 animate-slideInRight">
+          <div className="relative bg-white rounded-xl shadow-2xl w-[350px] border border-gray-200">
+            <button
               onClick={() => setShowYouTubePopup(false)}
+              className="absolute -top-2 -right-2 bg-black text-white rounded-full p-1.5 hover:bg-gray-800 transition-all shadow-lg z-10"
             >
-              <Youtube className="w-4 h-4" />
-              SUBSCRIBE
-            </a>
-            <span className="text-blue-600 font-semibold text-sm whitespace-nowrap">
-              15.9K
-            </span>
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-4 p-4">
+              <div className="flex-shrink-0">
+                <img
+                  src="/public/popuplogo.png"
+                  alt="Logo"
+                  className="w-16 h-16 object-contain rounded-lg"
+                />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-bold text-gray-900 mb-0.5 truncate">
+                  Shivam Editing Zone
+                </h3>
+                <p className="text-gray-500 text-xs mb-3">873 VIDEOS</p>
+
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://www.youtube.com/@Shivameditingzone?sub_confirmation=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-red-600 text-white px-4 py-1.5 rounded font-bold text-sm hover:bg-red-700 transition-all flex items-center gap-1.5"
+                    onClick={() => setShowYouTubePopup(false)}
+                  >
+                    <Youtube className="w-4 h-4" />
+                    SUBSCRIBE
+                  </a>
+                  <span className="text-blue-600 font-semibold text-sm whitespace-nowrap">
+                    15.9K
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
       <style>{`
         @keyframes slideInRight {
           from {
@@ -2238,8 +2237,9 @@ useEffect(() => {
       `}</style>
 
       {/* Floating WhatsApp Button */}
-      
-        <a href="https://wa.me/918805817052"
+
+      <a
+        href="https://wa.me/918805817052"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-600 text-white p-4 rounded-full shadow-2xl hover:bg-green-700 transition-all z-50 animate-bounce hover:animate-none group"
