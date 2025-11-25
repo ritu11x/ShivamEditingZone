@@ -1789,7 +1789,7 @@ const App = () => {
                   <p className="text-gray-700 leading-relaxed mb-6 text-lg">
                     Founder of <strong>Shivam Editing Zone</strong> - Your
                     complete destination for professional design services. Since{" "}
-                    <strong>July 13, 2019</strong>, I've been creating quality
+                    <strong>2019</strong>, I've been creating quality
                     designs for weddings, birthdays, festivals, and business
                     needs.
                   </p>
