@@ -2067,10 +2067,27 @@ const App = () => {
                 Professional design solutions for all your needs.
               </p>
               <div className="space-y-2 text-sm text-gray-400">
-                <p>📧 sv43849@gmail.com</p>
-                <p>📱 +91 88058 17052</p>
-                <p>📍 Karad, Maharashtra</p>
-              </div>
+  {/* email clickable */}
+  <a href="mailto:sv43849@gmail.com" className="block hover:underline">
+    📧 sv43849@gmail.com
+  </a>
+
+  {/* phone clickable */}
+  <a href="tel:+918805817052" className="block hover:underline">
+    📱 +91 88058 17052
+  </a>
+
+  {/* location clickable (Google Maps) */}
+  <a
+    href="https://www.google.com/maps/search/?api=1&query=Karad,+Maharashtra"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="block hover:underline"
+  >
+    📍 Karad, Maharashtra
+  </a>
+</div>
+
             </div>
             <div>
               <h4 className="font-bold mb-4">Quick Links</h4>
