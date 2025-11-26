@@ -2176,8 +2176,9 @@ const App = () => {
           </div>
           <div className="border-t border-gray-800 pt-8 text-center">
             <p className="text-gray-400">
-              &copy; 2025 Shivam Editing Zone. All rights reserved.
-            </p>
+  © 2025 Developed by <a href="mailto:vishwakarmaritu011@gmail.com" className="underline">Ritu Vishwakarma</a>
+</p>
+
             <p className="text-gray-500 text-sm mt-2">
               Joined: 13 July 2019 | 15.9K Subscribers | 873 Videos | 2.7M+
               Views
