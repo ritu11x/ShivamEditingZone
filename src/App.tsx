@@ -1112,16 +1112,16 @@ const App = () => {
                 </div>
 
                 <h1
-                  className="text-5xl md:text-6xl font-bold text-gray-900 mb-8"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-8 leading-tight tracking-tight"
                   style={{ fontFamily: "Elsie Black, serif" }}
                 >
-                  {" "}
-                  PROFESSIONAL DESIGN
-                  <span className="block text-red-600">CATALOG</span>
+                  PROFESSIONAL GRAPHIC DESIGN
+                  <span className="block text-red-600">SERVICES</span>
                 </h1>
+
                 <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                  Browse our complete collection of 5000+ professional designs
-                  for weddings, birthdays, festivals, and business needs.
+                  Explore Our Exclusive Catalog – 5000+ premium designs for
+                  weddings, birthdays, festivals, social media, and businesses.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <button
@@ -1246,8 +1246,13 @@ const App = () => {
                     JOURNEY
                   </span>
                 </h2>
-                <p className="text-white text-lg opacity-90">
+                <p className="text-white text-lg opacity-90 font-semibold">
                   Celebrating growth milestones together
+                </p>
+                <p className="text-white text-base opacity-90">
+                  From a humble start to a thriving creative community, our
+                  journey reflects your trust and our dedication to quality
+                  designs.
                 </p>
               </div>
 
@@ -1378,8 +1383,10 @@ const App = () => {
                   <p className="text-gray-700 leading-relaxed">
                     Hi! I'm{" "}
                     <span className="text-red-600 font-semibold">Shivam</span>,
-                    a passionate graphic designer specializing in wedding cards,
-                    banners, and festival designs. Creating magic since 2019! ✨
+                    and designing is more than my profession-it’s my passion.
+                    From wedding invitations to festival posters, I love
+                    creating designs that bring your imagination to life.
+                    Creating magic since 2019! ✨
                   </p>
                 </div>
 
@@ -1394,12 +1401,13 @@ const App = () => {
                     </h3>
                   </div>
                   <p className="text-gray-700 leading-relaxed">
-                    To provide{" "}
+                    To deliver{" "}
                     <span className="text-orange-600 font-semibold">
-                      affordable, high-quality
+                      affordable, premium-quality designs
                     </span>{" "}
-                    designs for every special occasion, helping you celebrate
-                    life's beautiful moments! 🎨
+                    that add joy, elegance, and creativity to your special
+                    occasions. Designs that connect emotionally and celebrate
+                    your story. ! 🎨
                   </p>
                 </div>
 
@@ -1442,7 +1450,7 @@ const App = () => {
               <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-50 to-orange-50 px-4 py-2 rounded-full mb-4">
                 <ShoppingBag className="w-5 h-5 text-red-600" />
                 <span className="text-red-600 font-semibold">
-                  Our Design Collection
+                  Discover Stunning Designs
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -1452,8 +1460,13 @@ const App = () => {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Explore our complete collection of {allProducts.length}+
-                professional designs for every special occasion
+                Dive into a hand-picked collection of{" "}
+                <strong>{allProducts.length}+ creative designs</strong> made for
+                life’s most memorable moments.
+              </p>
+              <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                From elegant wedding cards to vibrant festival
+                posters—everything you need is just one click away.
               </p>
             </div>
 
@@ -1755,7 +1768,7 @@ const App = () => {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Professional design services since 2019
+                Professional Graphic Design Services Since 2019
               </p>
             </div>
 
@@ -1763,11 +1776,11 @@ const App = () => {
             <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl p-8 md:p-12 shadow-xl mb-12">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 {/* Photo */}
-                {/* Photo */}
+
                 <div className="relative">
                   <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black shadow-2xl border-2 border-red-500/30">
                     <img
-                      src="/public/aboutlogo.png"
+                      src="/aboutlogo.jpg"
                       alt="Shivam - Founder"
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -1784,36 +1797,46 @@ const App = () => {
                 {/* Info */}
                 <div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                    Hi! I'm <span className="text-red-600">Shivam</span> 👋
+                    Shivam !
+                    <br />
+                    <span className="text-red-600 text-2xl">
+                      {" "}
+                      Founder & Lead Designer
+                    </span>
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-                    Founder of <strong>Shivam Editing Zone</strong> - Your
-                    complete destination for professional design services. Since{" "}
-                    <strong>2019</strong>, I've been creating quality
-                    designs for weddings, birthdays, festivals, and business
-                    needs.
+                    Trusted by <strong> 15.9K </strong>clients, I’m Shivam—the
+                    creator of Shivam Editing Zone. Since <strong>2019</strong>,
+                    I’ve delivered premium designs for weddings, events, social
+                    media, branding, and business promotions. Every design is
+                    crafted with creativity, detail, and a clear sense of what
+                    makes visuals stand out.
                   </p>
 
                   <div className="space-y-3 mb-6">
                     <div className="flex items-start">
                       <span className="text-red-600 mr-3 text-xl">✓</span>
                       <span className="text-gray-700">
-                        {allProducts.length}+ Professional Designs
+                        {allProducts.length}+ Professionally Crafted Designs
                       </span>
                     </div>
                     <div className="flex items-start">
                       <span className="text-red-600 mr-3 text-xl">✓</span>
                       <span className="text-gray-700">
-                        Affordable prices from ₹150
+                        Affordable Pricing (Starting at ₹150)
                       </span>
                     </div>
                     <div className="flex items-start">
                       <span className="text-red-600 mr-3 text-xl">✓</span>
-                      <span className="text-gray-700">24-48 hour delivery</span>
+                      <span className="text-gray-700">
+                        Fast Delivery Within 24-48 Hours
+                      </span>
                     </div>
                     <div className="flex items-start">
                       <span className="text-red-600 mr-3 text-xl">✓</span>
-                      <span className="text-gray-700">100% customizable</span>
+                      <span className="text-gray-700">
+                        100% Customizable Design Options
+                      </span>
                     </div>
                   </div>
 
@@ -1841,6 +1864,78 @@ const App = () => {
               </div>
             </div>
 
+            {/* Testimonials Section */}
+            <div className="mb-12">
+              <div className="text-center mb-10">
+                <div className="inline-flex items-center space-x-2 bg-yellow-100 px-4 py-2 rounded-full mb-4">
+                  <Star className="w-5 h-5 text-yellow-600 fill-yellow-600" />
+                  <span className="text-yellow-700 font-semibold">
+                    Client Testimonials
+                  </span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                  What Our{" "}
+                  <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
+                    Clients Say
+                  </span>
+                </h3>
+                <p className="text-gray-600 text-lg">
+                  Trusted by thousands of satisfied customers
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Testimonial 1 */}
+                <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-100 hover:border-yellow-400 transition-all duration-300 hover:shadow-xl">
+                  <div className="flex items-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 text-yellow-500 fill-yellow-500"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed mb-6 italic">
+                    "Shivam's editing is amazing. My thumbnails and reels got
+                    much better reach!"
+                  </p>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      R
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900">Rahul</h4>
+                      <p className="text-sm text-gray-500">Content Creator</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Testimonial 2 */}
+                <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-100 hover:border-yellow-400 transition-all duration-300 hover:shadow-xl">
+                  <div className="flex items-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 text-yellow-500 fill-yellow-500"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed mb-6 italic">
+                    "Fast delivery and very creative designs. Highly recommend!"
+                  </p>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      A
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900">Aditi</h4>
+                      <p className="text-sm text-gray-500">Wedding Planner</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Thank You Card */}
             <div className="bg-gradient-to-br from-gray-900 via-red-900 to-black rounded-2xl p-8 text-center text-white shadow-xl relative overflow-hidden">
               {/* Add animated background like OUR JOURNEY */}
@@ -1851,10 +1946,12 @@ const App = () => {
 
               <div className="relative z-10">
                 <Heart className="w-12 h-12 mx-auto mb-4" />
-                <h3 className="text-3xl font-bold mb-3">Thank You !</h3>
+                <h3 className="text-3xl font-bold mb-3">
+                  Your support means everything to us !
+                </h3>
                 <p className="text-lg mb-6 text-white/90">
-                  Your love and support means everything to us. Subscribe for
-                  free design tutorials!
+                  We’re grateful for your support. Join our community for free
+                  design tutorials, tips, and resources.
                 </p>
                 <a
                   href="https://www.youtube.com/@Shivameditingzone"
@@ -2067,27 +2164,29 @@ const App = () => {
                 Professional design solutions for all your needs.
               </p>
               <div className="space-y-2 text-sm text-gray-400">
-  {/* email clickable */}
-  <a href="mailto:sv43849@gmail.com" className="block hover:underline">
-    📧 sv43849@gmail.com
-  </a>
+                {/* email clickable */}
+                <a
+                  href="mailto:sv43849@gmail.com"
+                  className="block hover:underline"
+                >
+                  📧 sv43849@gmail.com
+                </a>
 
-  {/* phone clickable */}
-  <a href="tel:+918805817052" className="block hover:underline">
-    📱 +91 88058 17052
-  </a>
+                {/* phone clickable */}
+                <a href="tel:+918805817052" className="block hover:underline">
+                  📱 +91 88058 17052
+                </a>
 
-  {/* location clickable (Google Maps) */}
-  <a
-    href="https://www.google.com/maps/search/?api=1&query=Karad,+Maharashtra"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="block hover:underline"
-  >
-    📍 Karad, Maharashtra
-  </a>
-</div>
-
+                {/* location clickable (Google Maps) */}
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Karad,+Maharashtra"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:underline"
+                >
+                  📍 Karad, Maharashtra
+                </a>
+              </div>
             </div>
             <div>
               <h4 className="font-bold mb-4">Quick Links</h4>
@@ -2176,8 +2275,14 @@ const App = () => {
           </div>
           <div className="border-t border-gray-800 pt-8 text-center">
             <p className="text-gray-400">
-  © 2025 Developed by <a href="mailto:vishwakarmaritu011@gmail.com" className="underline">Ritu Vishwakarma</a>
-</p>
+              © 2025 Developed by{" "}
+              <a
+                href="mailto:vishwakarmaritu011@gmail.com"
+                className="underline"
+              >
+                Ritu Vishwakarma
+              </a>
+            </p>
 
             <p className="text-gray-500 text-sm mt-2">
               Joined: 13 July 2019 | 15.9K Subscribers | 873 Videos | 2.7M+
