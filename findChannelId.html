@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Channel ID</title>
+</head>
+<body>
+  <h1>Finding Channel ID...</h1>
+  <div id="result"></div>
+  
+  <script>
+    const apiKey = 'AIzaSyD5sBPWtsNwB_27BSN875QIBH1Sv5JpBX8'; // Put your API key here
+    
+    // Method 1: Try by username
+    fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,statistics&forUsername=Shivameditingzone&key=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.items && data.items.length > 0) {
+          document.getElementById('result').innerHTML = `
+            <h2>Channel Found!</h2>
+            <p><strong>Channel ID:</strong> ${data.items[0].id}</p>
+            <p><strong>Subscribers:</strong> ${data.items[0].statistics.subscriberCount}</p>
+            <p><strong>Videos:</strong> ${data.items[0].statistics.videoCount}</p>
+            <p><strong>Views:</strong> ${data.items[0].statistics.viewCount}</p>
+          `;
+        } else {
+          // Method 2: Try by custom URL
+          return fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=Shivam+Editing+Zone&key=${apiKey}`)
+            .then(res => res.json())
+            .then(searchData => {
+              if (searchData.items && searchData.items.length > 0) {
+                const channelId = searchData.items[0].snippet.channelId;
+                // Now get full channel info
+                return fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${apiKey}`)
+                  .then(res => res.json())
+                  .then(channelData => {
+                    document.getElementById('result').innerHTML = `
+                      <h2>Channel Found!</h2>
+                      <p><strong>Channel ID:</strong> ${channelId}</p>
+                      <p><strong>Subscribers:</strong> ${channelData.items[0].statistics.subscriberCount}</p>
+                      <p><strong>Videos:</strong> ${channelData.items[0].statistics.videoCount}</p>
+                      <p><strong>Views:</strong> ${channelData.items[0].statistics.viewCount}</p>
+                    `;
+                  });
+              }
+            });
+        }
+      })
+      .catch(error => {
+        document.getElementById('result').innerHTML = `
+          <h2 style="color: red;">Error!</h2>
+          <p>${error.message}</p>
+          <p>Please check your API key</p>
+        `;
+      });
+  </script>
+</body>
+</html>
